@@ -94,42 +94,39 @@
 
 ### 🐦 飞书（Lark）系列
 
+> 已归组至 [`lark-skills/`](./lark-skills/) 子文件夹，共 27 个 skill。
+
 | Skill | 用途 |
 |-------|------|
 | `lark-shared` | 飞书基础认证、应用配置初始化 |
+| `lark-apps` | 飞书应用管理：妙搭 Git 凭证、访问范围配置 |
+| `lark-approval` | 飞书审批：发起、查询审批流程 |
+| `lark-attendance` | 飞书考勤：打卡记录、统计 |
 | `lark-im` | 飞书即时消息：收发消息、管理群聊 |
 | `lark-doc` | 飞书云文档：创建编辑文档，从 Markdown 创建 |
+| `lark-note` | 飞书笔记：新建、编辑笔记内容 |
 | `lark-wiki` | 飞书知识库：管理知识空间和文档节点 |
 | `lark-drive` | 飞书云空间：文件上传下载、文件夹管理 |
 | `lark-calendar` | 飞书日历：日程管理、会议创建 |
+| `lark-event` | 飞书事件订阅：WebSocket 监听飞书事件 |
 | `lark-task` | 飞书任务：待办创建、任务状态更新 |
 | `lark-base` | 飞书多维表格：建表、字段管理、数据操作 |
 | `lark-sheets` | 飞书电子表格：单元格读写、表格创建 |
+| `lark-slides` | 飞书幻灯片：演示文稿创建与编辑 |
 | `lark-contact` | 飞书通讯录：组织架构查询、人员搜索 |
 | `lark-mail` | 飞书邮箱：起草、发送、回复、搜索邮件 |
 | `lark-minutes` | 飞书妙记：获取会议总结、待办、逐字稿 |
 | `lark-vc` | 飞书视频会议：查询会议记录和纪要 |
-| `lark-event` | 飞书事件订阅：WebSocket 监听飞书事件 |
+| `lark-vc-agent` | 飞书视频会议 Agent：智能会议助手 |
+| `lark-okr` | 飞书 OKR：目标与关键结果管理 |
 | `lark-whiteboard` | 飞书画板：绘制架构图、流程图、思维导图 |
+| `lark-markdown` | 飞书 Markdown 转换：Markdown 与飞书文档互转 |
 | `lark-openapi-explorer` | 探索飞书未封装的原生 OpenAPI |
 | `lark-skill-maker` | 创建飞书 lark-cli 自定义 Skill |
 | `lark-workflow-standup-report` | 日程待办摘要工作流 |
 | `lark-workflow-meeting-summary` | 会议纪要整理工作流 |
 
----
-
-### 🚀 Vercel / React 系列
-
-| Skill | 用途 |
-|-------|------|
-| `deploy-to-vercel` | 部署应用到 Vercel |
-| `vercel-cli-with-tokens` | 使用 Token 认证管理 Vercel 项目 |
-| `vercel-react-best-practices` | React/Next.js 性能优化指南 |
-| `vercel-react-native-skills` | React Native/Expo 移动应用最佳实践 |
-| `vercel-react-view-transitions` | React View Transitions 动画实现 |
-| `vercel-composition-patterns` | React 可扩展组件组合模式 |
-| `web-design-guidelines` | Web 界面设计规范审查 |
-| `remotion-best-practices` | Remotion 视频创作最佳实践 |
+> [!note] 本仓库为纯备份分享用途，不被 Claude Code 直接加载。如需启用某个飞书 skill，将对应目录拷贝或软链到 `~/.claude/skills/`。
 
 ---
 
@@ -141,6 +138,39 @@
 | `notebooklm-skill` | 查询 Google NotebookLM 笔记本 |
 | `statusline-setup` | 配置 Claude Code 状态栏显示 |
 | `opencli` | OpenCLI 命令行工具交互 |
+
+---
+
+## 🤖 Subagent（自研）
+
+> 配置位于 [`agents/`](./agents/) 目录，拷贝到 `~/.claude/agents/` 后由 Claude Code 的 `Agent` 工具按 `subagent_type` 调用。CLAUDE.md 中对应的强制执行规则见 [`agents/CLAUDE-subagent-rules.md`](./agents/CLAUDE-subagent-rules.md)。
+
+| Subagent | 调用方式 | 职责 | 触发时机 |
+|----------|---------|------|---------|
+| [`atomic-note-auditor`](./agents/atomic-note-auditor.md) | `Agent(subagent_type: "atomic-note-auditor")` | 双维度审核输出：**人话审核**（无 AI 味、自然人类写作）+ **正确性审核**（事实/frontmatter/wikilink/原文依据） | 任何输出交付用户前必须调用，错误反馈进下一轮重写，最多 5 轮，第 3 轮须收敛 |
+| [`context-guardian`](./agents/context-guardian.md) | `Agent(subagent_type: "context-guardian")` | 监测上下文用量，报告 🟢/🟡/🟠/🔴 状态，🟠/🔴 时执行压缩并输出 Task Checkpoint | 首次响应前、每 5 次工具调用后、等待用户输入前、单次输出 >200 行后、运行 >3 分钟后、🟠/🔴 状态时 |
+| [`design-gatekeeper`](./agents/design-gatekeeper.md) | `Agent(subagent_type: "design-gatekeeper")` | 项目交付质量守门人：审查功能完整性与设计品质，给通过/不通过判定，并将不通过项修复到生产级 | 任何功能或界面"声称完成"后、标记为完成前必须调用 |
+
+### 三者如何协作
+
+```
+用户请求
+   │
+   ├─ 首次响应前 ─→ context-guardian 评估上下文
+   │
+   ├─ 任务执行中 ─→ 每 5 次工具调用 / 长输出 / 等待输入 ─→ context-guardian 检查
+   │
+   ├─ 产出交付前 ─→ atomic-note-auditor 审核输出（人话+正确性）
+   │
+   └─ 功能声称完成 ─→ design-gatekeeper 质量守门
+```
+
+- **context-guardian** 是"运行时保护层"，防止上下文溢出导致任务中断
+- **atomic-note-auditor** 是"输出质量层"，确保交付内容自然且正确
+- **design-gatekeeper** 是"完成判定层"，确保功能真的可用而非虚假完成
+
+> [!warning] Loop Engineering 护栏
+> auditor 说通过不等于你不用看——带着判断力设计 loop 是解药，为逃避思考设计 loop 是助燃剂。Agent 说"done"是声明不是证明，硬验收（wikilink 可达 / frontmatter 完整 / 原文可溯）不可替代。详见 [`agents/CLAUDE-subagent-rules.md`](./agents/CLAUDE-subagent-rules.md)。
 
 ---
 
