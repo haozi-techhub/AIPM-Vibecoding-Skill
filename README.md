@@ -1,3 +1,15 @@
+# AIPM-Vibecoding-Skill
+
+> AI 产品经理 Vibecoding 专用 Skill 库 —— 自研 + 第三方 Skill 沉淀，Claude Code / Codex 通用。
+
+本仓库收录我在 AI 产品经理日常工作里高频用到的 Skill（斜杠命令）、Subagent 和 MCP 工具配置。大部分 Skill 为全局安装（`~/.agents/skills/` + `~/.claude/skills/` 软链），任何项目目录下都可用；飞书系列已归组到 [`lark-skills/`](./lark-skills/) 子文件夹；自研 Subagent 放在 [`agents/`](./agents/)。
+
+第三方 Skill 保留原作者 License（见各目录 `SKILL.md` frontmatter），自研 Skill 遵循本仓库 License。
+
+---
+
+## 插件管理
+
 插件通过 `~/.claude/settings.json` 的 `enabledPlugins` 字段管理。
 
 | 插件 ID | 来源 | 提供的 Skills |
@@ -89,6 +101,16 @@
 | `note-summarizer` | 总结笔记/飞书文档时 | 专业笔记整理，结构化输出 |
 | `competitive-analysis` | 竞品调研时 | 产品经理竞品分析工作流 |
 | `defuddle` | 从网页提取内容时 | 用 Defuddle CLI 提取干净 Markdown，去除广告噪音 |
+| `pua` | AI 反复失败/磨洋工/想放弃时 | PUA 话术 + 调试方法论驱动 AI 穷尽方案再放弃（来源：[tanweai/pua](https://github.com/tanweai/pua)，MIT） |
+
+---
+
+### 🔬 研究与调研类
+
+| Skill | 触发场景 | 作用 |
+|-------|---------|------|
+| `hv-analysis` | 系统性研究产品/公司/概念/技术/人物时 | 横纵分析法深度研究：纵向追时间深度 + 横向追同期广度，交叉产出独到洞察，输出排版精美 PDF 报告（来源：[KKKKhazix/khazix-skills](https://github.com/KKKKhazix/khazix-skills)，MIT） |
+| `neat-freak` | 开发阶段收尾、文档/记忆同步、交接体检时 | 洁癖级知识库收尾：同步项目文档与 Agent 记忆、审计规范执行情况（命名/必备文件/同源/红线逐条核对），跨平台（来源：[KKKKhazix/khazix-skills](https://github.com/KKKKhazix/khazix-skills)，MIT） |
 
 ---
 
@@ -138,6 +160,14 @@
 | `notebooklm-skill` | 查询 Google NotebookLM 笔记本 |
 | `statusline-setup` | 配置 Claude Code 状态栏显示 |
 | `opencli` | OpenCLI 命令行工具交互 |
+
+---
+
+### 💼 招聘调研类（自研）
+
+| Skill | 触发场景 | 作用 |
+|-------|---------|------|
+| `job-jd-crawler` | 给城市/薪资/岗位要批量抓 JD 时 | 按目标城市、月薪区间和岗位自动搜索抓取完整招聘 JD，支持断点续跑、串行限速、风控停机、去重和 CSV/Excel 输出，兼容 Codex 与 Claude Code |
 
 ---
 

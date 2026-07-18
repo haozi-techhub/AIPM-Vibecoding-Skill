@@ -1,0 +1,4 @@
+interface:
+  display_name: "岗位 JD 自动抓取"
+  short_description: "按城市、薪资和岗位自动抓取、去重、续跑并导出完整 JD"
+  default_prompt: "Use $job-jd-crawler to crawl job JDs for my target cities, salary range, and roles."
