@@ -2,7 +2,7 @@
 
 > AI 产品经理 Vibecoding 专用 Skill 库 —— 自研 + 第三方 Skill 沉淀，Claude Code / Codex 通用。
 
-本仓库收录我在 AI 产品经理日常工作里高频用到的 Skill（斜杠命令）、Subagent 和 MCP 工具配置。大部分 Skill 为全局安装（`~/.agents/skills/` + `~/.claude/skills/` 软链），任何项目目录下都可用；飞书系列已归组到 [`lark-skills/`](./lark-skills/) 子文件夹；自研 Subagent 放在 [`agents/`](./agents/)。
+本仓库收录我在 AI 产品经理日常工作里高频用到的 Skill（斜杠命令）、Subagent 和 MCP 工具配置。大部分 Skill 为全局安装：Claude Code 从 `~/.agents/skills/` + `~/.claude/skills/` 读取，Codex 从 `~/.codex/skills/` 读取，任何项目目录下都可用；飞书系列已归组到 [`lark-skills/`](./lark-skills/) 子文件夹；自研 Subagent 放在 [`agents/`](./agents/)。
 
 第三方 Skill 保留原作者 License（见各目录 `SKILL.md` frontmatter），自研 Skill 遵循本仓库 License。
 
@@ -60,6 +60,25 @@
 | Skill | 触发场景 | 作用 |
 |-------|---------|------|
 | `frontend-design:frontend-design` | 创建生产级前端界面时 | 高设计质量的前端界面创作指南 |
+
+---
+
+### 📊 AntV Chart Visualization Skills（数据可视化）
+
+> 已归组至 [`antv-chart-visualization-skills/`](./antv-chart-visualization-skills/) 子文件夹，共 8 个独立 Skill。合集名称不作为总入口；Claude Code 和 Codex 会根据任务描述自动选择对应 Skill。
+
+| Skill | 触发场景 | 作用 |
+|---|---|---|
+| `chart-visualization` | 需要快速生成图表图片时 | 调用 AntV API 生成柱状图、折线图、饼图、桑基图、流程图等 |
+| `antv-g2-chart` | 开发统计图表或 Dashboard 时 | 生成符合 G2 v5 规范的 JavaScript 代码 |
+| `antv-g6-graph` | 展示知识图谱、组织架构或关系网络时 | 生成 G6 v5 图可视化代码 |
+| `antv-x6-editor` | 开发可拖拽连线的流程编辑器时 | 生成 X6 3.x 流程图、DAG、ER 图和血缘图代码 |
+| `antv-s2-expert` | 开发交叉表、透视表或多维分析表格时 | 生成 S2 / React / Vue 表格代码 |
+| `infographic-creator` | 制作路线图、时间线、SWOT 或一屏信息图时 | 生成 AntV Infographic HTML，可导出 SVG |
+| `narrative-text-visualization` | 制作带数据语义标注的解读报告时 | 生成 T8 文本及 HTML / React / Vue 代码 |
+| `icon-retrieval` | 为网页、图表或信息图查找图标时 | 检索 SVG 图标地址和源码 |
+
+来源：[antvis/chart-visualization-skills](https://github.com/antvis/chart-visualization-skills)，MIT License。
 
 ---
 
